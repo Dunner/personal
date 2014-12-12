@@ -1,0 +1,28 @@
+
+<div class="post-new" if-loggedin>
+  <hr/>
+  <div class="post-toggle" ng-click="writeNew = !writeNew" ng-show="!writeNew">
+    <img src="images/pfeed_plus.svg" height="40px"></img>
+    <div class="text-new">WRITE A NEW ENTRTY</div>
+  </div>
+  <form class="post-form" ng-submit="addPost(newPost)" ng-show="writeNew">
+    <input name="title" type="text" placeholder="Title" ng-model="form.title" autofocus="" />
+    <textarea name="excerpt" placeholder="Excerpt" ng-model="form.excerpt" autofocus="" ></textarea>
+    <div text-angular class="input-content" name="content" ng-model="form.content" autofocus="" ></div>
+    <button type="submit" class="button button-ok">Post</button>
+    <div class="button button-cancel" ng-click="writeNew = false">Cancel</div>
+    <div style="clear:both"></div>
+  </form>
+  <hr/>
+</div>
+
+
+<div ng-repeat="item in posts | orderBy:'createdAt':true" ng-click="expand(item)">
+  <div class="post">
+    <h1>{{item.title}}</h1> <!-- {{item.completed}} {{item.createdAt | date:"MM/dd/yyyy 'at' h:mma"}}-->
+    <h3>{{item.excerpt}}</h3>
+    <div ng-bind-html="item.content" ng-show="readingId === item._id"></div>
+    <button if-loggedin ng-click="removePost(item._id)" type="submit" class="delete button button-cancel"><h6>DELETE</h6></button>
+  </div>
+  <hr/>
+</div>
