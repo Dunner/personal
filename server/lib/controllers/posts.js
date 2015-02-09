@@ -15,7 +15,7 @@ exports.post = function(req, res, next, id) {
 
 // List of posts
 exports.query = function(req, res) {
-  Post.find().sort('-createdAt').select('-content').limit(10).exec(function(err, posts) {
+  Post.find({ 'inFeed': req.params.feedId }).sort('-createdAt').select('-content').limit(10).exec(function(err, posts) {
     if (err) return res.json(500, err);
     res.json(posts);
   });

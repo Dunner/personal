@@ -2,13 +2,13 @@
 
 /**
  * @ngdoc function
- * @name lightAppApp.controller:MainCtrl
+ * @name lightAppApp.controller:feedCtrl
  * @description
- * # MainCtrl
+ * # feedCtrl
  * Controller of the lightApp
  */
 angular.module('lightApp')
-  .controller('MainCtrl', function ($scope, Auth, Posts) {
+  .controller('feedCtrl', function ($scope, $stateParams, Auth, Posts, Feeds) {
     
     $scope.writeNew = false;
     $scope.readingId = '';
@@ -19,17 +19,22 @@ angular.module('lightApp')
       $scope.status = newValue;
     });
     
-    
-    Posts.query(function(response) {
-      $scope.posts = response;
+    Feeds.get({'slug': $stateParams.slug}).$promise.then(function(response) {
+      $scope.feed = response;
+      Posts.query({'feedId': $scope.feed._id}, function(response) {
+        $scope.posts = response;
+      });
     });
+
 
     $scope.expand = function(post) {
       if (post.content === undefined) {
-        Posts.get({'postId': post._id}, function(response) {
+        Posts.get({'feedId': $scope.feed._id, 'postId': post._id}, function(response) {
           post.content = response.content;
           $scope.readingId = post._id;
         });
+      } else {
+        $scope.readingId = post._id;
       }
     };
 
@@ -38,6 +43,7 @@ angular.module('lightApp')
         title: $scope.form.title,
         excerpt: $scope.form.excerpt,
         content: $scope.form.content,
+        inFeed: $scope.feed._id,
         completed: false
       });
       newPost.$save(function(post){

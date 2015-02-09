@@ -28,17 +28,21 @@
     <!-- Add your site or application content here -->
     <div class="mast-head">
       <div class="mast-core">
-        <div class="mast-logo">
-          <img src="images/pfeed_logo.svg"></img>
-        </div>
-        <div class="mast-info">
-          <div class="site-title">pFeed</div>
-          <div class="site-description">You personal feed</div>
+        <div class="mast-pfeed">
+          <a href="/">
+            <div class="mast-logo">
+              <img src="images/pfeed_logo.svg"></img>
+            </div>
+            <div class="mast-info">
+              <div class="site-title">pFeed</div>
+              <div class="site-description">You personal feed</div>
+            </div>
+          </a>
         </div>
         <div class="feed-title">
-          <h1>Jonathan's feed</h1>
+          <h1>{{state.current}}</h1>
         </div>
-        <div class="mast-admin" module-admin></div>
+        <div class="mast-admin" module-admin ng-show="$root.state === 'feed'"></div>
       </div>
     </div>
     <div class="wrapper">
@@ -85,14 +89,18 @@
         <!-- build:js({.tmp,app}) scripts/scripts.js -->
         <script src="scripts/app.js"></script>
         
-        <script src="scripts/controllers/main.js"></script>
+        <script src="scripts/controllers/feed.js"></script>
+        <script src="scripts/controllers/start.js"></script>
         
         <script src="scripts/services/socket.js"></script>
         <script src="scripts/services/scroll.js"></script>
+        <script src="scripts/services/feeds.js"></script>
         <script src="scripts/services/session.js"></script>
         <script src="scripts/services/auth.js"></script>
         <script src="scripts/services/posts.js"></script>
         <script src="scripts/services/helper.js"></script>
+        
+        <script src="scripts/filters/slug.js"></script>
         
         <script src="scripts/directives/admin.js"></script>
         <script src="scripts/directives/helper.js"></script>

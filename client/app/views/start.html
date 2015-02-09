@@ -1,0 +1,27 @@
+
+
+<h1>Feeds</h1>
+
+<div class="post-new">
+  <hr/>
+  <div class="post-toggle" ng-click="writeNew = !writeNew" ng-show="!writeNew">
+    <img src="images/pfeed_plus.svg" height="40px"></img>
+    <div class="text-new">CREATE NEW FEED</div>
+  </div>
+  <form class="post-form" ng-submit="addFeed()" ng-show="writeNew">
+    <input name="title" type="text" placeholder="Name" ng-model="form.name" autofocus="" />
+    <input name="password" type="password" placeholder="Password" ng-model="form.password" autofocus="" />
+    <button type="submit" class="button button-ok">Create</button>
+    <div class="button button-cancel" ng-click="writeNew = false">Cancel</div>
+    <div style="clear:both"></div>
+  </form>
+  <hr/>
+</div>
+
+<div ng-repeat="item in feeds | orderBy:'createdAt':true" ui-sref="feed({'slug': item.slug})">
+  <div class="post">
+    <h2>{{item.name}}</h2> <!-- {{item.completed}} {{item.createdAt | date:"MM/dd/yyyy 'at' h:mma"}}-->
+    <h2>{{item.slug}}</h2>
+  </div>
+  <hr/>
+</div>

@@ -11,8 +11,9 @@
 
 angular.module('lightApp')
    .service('Posts', function ($resource) {
-      return $resource('api/posts/:postId', {
-         postId: '@_id'
+      return $resource('api/posts/:feedId/:postId', {
+         feedId: '@feedId',
+         postId: '@postId'
       }, {
          
          update: {

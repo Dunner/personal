@@ -10,6 +10,7 @@ var PostSchema = new Schema({
   excerpt: String,
   content: String,
   completed: Boolean,
+  inFeed: String,
   createdAt: Date,
   updatedAt: Date,
 });

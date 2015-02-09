@@ -7,7 +7,7 @@
  * # moduleAdmin
  */
 angular.module('lightApp')
-  .directive('moduleAdmin', function (Auth, Session, Helper) {
+  .directive('moduleAdmin', function ($stateParams, Auth, Session, Helper) {
     return {
       restrict: 'EA',
       link: function ($scope) {
@@ -27,6 +27,7 @@ angular.module('lightApp')
             $scope.submitted = true;
             if(form.$valid) {
               Auth.login({
+                feed: $stateParams.slug,
                 password: $scope.password
               },
               function(err) {

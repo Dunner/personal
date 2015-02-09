@@ -22,13 +22,14 @@ angular
   ])
   .run(   ['$rootScope', '$state', '$window',
   function ($rootScope,   $state,   $window) {
-
+  
     //Statechange
     $rootScope.$on('$stateChangeStart', function () {
       $window.scrollTo(0, 0);
     });
     $rootScope.$on('$stateChangeSuccess', function () {
       $window.scrollTo(0, 0);
+      $rootScope.state = $state.current.name;
     });
     $rootScope.$on('$stateChangeError', function () {
       console.log('STATE CHANGE ERROR');
@@ -44,8 +45,14 @@ angular
     
       .state('start', {
         url: '/',
-        templateUrl: 'views/main.html',
-        controller: 'MainCtrl'
+        templateUrl: 'views/start.html',
+        controller: 'startCtrl'
+      })
+      
+      .state('feed', {
+        url: '/{slug}',
+        templateUrl: 'views/feed.html',
+        controller: 'feedCtrl'
       });
       
     $urlRouterProvider.otherwise('/');

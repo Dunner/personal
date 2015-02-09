@@ -1,7 +1,7 @@
 'use strict';
 
 var mongoose = require('mongoose'),
-    Settings = mongoose.model('Settings');
+    Feed = mongoose.model('Feed');
     
 /**
  * Start
@@ -26,14 +26,15 @@ exports.logout = function (req, res, next) {
  * Login
  */
 exports.login = function (req, res, next) {
+  var where = req.body.feed;
   var password = req.body.password;
   if (password){
-    Settings.findOne().exec(function (err, settings) {
-      if (!settings.validPassword(password)) {
+    Feed.findOne({ 'slug': req.body.feed }).exec(function (err, feed) {
+      if (!feed.validPassword(password)) {
         console.log('failed login with password: '+password);
         return res.send(401, {'status':'Wrong Password'});
       } else {
-        // req.session.password = settings.generateHash(password);
+        // req.session.password = feed.generateHash(password);
         req.session.authenticated = true;
         return res.send(200);
       }

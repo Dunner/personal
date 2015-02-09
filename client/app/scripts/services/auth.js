@@ -25,6 +25,7 @@ angular.module('lightApp')
     factory.login = function(data, callback) {
       var cb = callback || angular.noop;
       Session.save({
+        feed: data.feed,
         password: data.password,
         rememberMe: data.rememberMe
       }, function() {

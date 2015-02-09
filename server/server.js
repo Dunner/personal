@@ -78,7 +78,7 @@
   }));
   
   // Populate empty DB with sample data
-  require('./config/dummy');
+  //require('./config/dummy');
   
   // routes ==================================================
   require('./lib/routes')(app); // configure API routes
