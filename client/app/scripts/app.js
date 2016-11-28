@@ -23,6 +23,8 @@ angular
   .run(   ['$rootScope', '$state', '$window',
   function ($rootScope,   $state,   $window) {
   
+    $rootScope.feedId = false;
+
     //Statechange
     $rootScope.$on('$stateChangeStart', function () {
       $window.scrollTo(0, 0);

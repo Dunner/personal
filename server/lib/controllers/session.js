@@ -7,8 +7,8 @@ var mongoose = require('mongoose'),
  * Start
  */
 exports.start = function (req, res, next) {
-  if(req.session.authenticated) {
-    return res.json(200, {'status': true});
+  if(req.session.authenticatedFeed) {
+    return res.json(200, {'status': req.session.authenticatedFeed});
   } else {
     return res.json({'status': false});
   }
@@ -35,7 +35,7 @@ exports.login = function (req, res, next) {
         return res.send(401, {'status':'Wrong Password'});
       } else {
         // req.session.password = feed.generateHash(password);
-        req.session.authenticated = true;
+        req.session.authenticatedFeed = feed._id;
         return res.send(200);
       }
     });

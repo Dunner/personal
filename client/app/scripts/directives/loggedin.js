@@ -7,15 +7,14 @@
  * # ifLoggedin
  */
 angular.module('lightApp')
-  .directive('ifLoggedin', function (Auth) {
+  .directive('ifLoggedin', function (Auth, $rootScope) {
     return {
       restrict: 'EA',
-      scocpe: true,
       link: function ($scope, $element) {
         
         $scope.auth = Auth;
         $scope.$watch('auth.getStatus()', function(newValue) {
-          if (newValue) {
+          if (newValue == $rootScope.feedId && typeof $rootScope.feedId === 'string') {
             $element.removeClass('ng-hide');
             $element.addClass('ng-show');
           } else {

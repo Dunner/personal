@@ -27,9 +27,9 @@ module.exports = function(app) {
   app.param('postId', posts.post);
   app.get('/api/posts/:feedId', posts.query);
   app.get('/api/posts/:feedId/:postId', posts.show);
-  app.post('/api/posts', middleware.auth, posts.create);
-  app.put('/api/posts/:postId', middleware.auth, posts.update);
-  app.delete('/api/posts/:postId', middleware.auth, posts.remove);
+  app.post('/api/posts/:feedId', middleware.auth, posts.create);
+  app.put('/api/posts/:feedId/:postId', middleware.auth, posts.update);
+  app.delete('/api/posts/:feedId/:postId', middleware.auth, posts.remove);
 
 
   // -------
@@ -39,13 +39,6 @@ module.exports = function(app) {
   app.get('/api/*', function(req, res) {
     res.send(404);
   });
-
-  // -------
-  // Protected
-  // -------
-  app.get('/user', middleware.auth);
-  app.get('/users', middleware.auth);
-  app.get('/settings', middleware.auth);
 
 
   // All other routes to use Angular routing in app/scripts/app.js

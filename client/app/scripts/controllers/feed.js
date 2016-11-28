@@ -8,7 +8,7 @@
  * Controller of the lightApp
  */
 angular.module('lightApp')
-  .controller('feedCtrl', function ($scope, $stateParams, Auth, Posts, Feeds) {
+  .controller('feedCtrl', function ($rootScope, $scope, $stateParams, Auth, Posts, Feeds, Session) {
     
     $scope.writeNew = false;
     $scope.readingId = '';
@@ -21,10 +21,20 @@ angular.module('lightApp')
     
     Feeds.get({'slug': $stateParams.slug}).$promise.then(function(response) {
       $scope.feed = response;
+      $rootScope.feedId = $scope.feed._id;
+
       Posts.query({'feedId': $scope.feed._id}, function(response) {
         $scope.posts = response;
+
+        Session.get().$promise.then(function (data) {
+          Auth.setStatus(data.status);
+        });
+
       });
+
     });
+
+
 
 
     $scope.expand = function(post) {
@@ -46,7 +56,7 @@ angular.module('lightApp')
         inFeed: $scope.feed._id,
         completed: false
       });
-      newPost.$save(function(post){
+      newPost.$save({'feedId': $scope.feed._id}, function(post){
         $scope.posts.push(post);
         $scope.writeNew = false;
         $scope.form = {title: '', excerpt: '', content: ''};
@@ -54,7 +64,7 @@ angular.module('lightApp')
     };
     
     $scope.removePost = function(id) {
-      Posts.delete({postId: id}, function(post){
+      Posts.delete({'feedId': $scope.feed._id, postId: id}, function(post){
         for(var i = $scope.posts.length - 1; i >= 0; i--) {
           if($scope.posts[i]._id === post._id) {
              $scope.posts.splice(i, 1);

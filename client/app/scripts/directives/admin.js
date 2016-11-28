@@ -7,7 +7,7 @@
  * # moduleAdmin
  */
 angular.module('lightApp')
-  .directive('moduleAdmin', function ($stateParams, Auth, Session, Helper) {
+  .directive('moduleAdmin', function ($rootScope, $stateParams, Auth, Session, Helper) {
     return {
       restrict: 'EA',
       link: function ($scope) {
@@ -16,10 +16,21 @@ angular.module('lightApp')
           Auth.setStatus(data.status);
           
           $scope.auth = Auth;
-          $scope.authenticated = Auth.getStatus();
+          authenticateUpdate(Auth.getStatus());
+
           $scope.$watch('auth.getStatus()', function(newValue) {
-            $scope.authenticated = newValue;
+            authenticateUpdate(newValue)
           });
+
+          function authenticateUpdate(val) {
+            console.log(val, $rootScope.feedId)
+            if (val == $rootScope.feedId && typeof $rootScope.feedId === 'string') {
+              $scope.authenticated = true;
+            } else {
+              $scope.authenticated = false;
+            }
+            console.log('admin: ', $scope.authenticated)
+          }
 
           $scope.module = false;
           

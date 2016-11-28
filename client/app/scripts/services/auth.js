@@ -17,9 +17,7 @@ angular.module('lightApp')
     };
     
     factory.setStatus = function(value) {
-      if (typeof value === 'boolean'){
-        status = value;
-      }
+      status = value;
     };
     
     factory.login = function(data, callback) {
