@@ -9,27 +9,20 @@
  */
 angular.module('lightApp')
   .factory('Auth', function Auth(Session) {
-    var factory = [],
-        status = false;
+    var factory = [];
     
-    factory.getStatus = function() {
-      return status;
-    };
-    
-    factory.setStatus = function(value) {
-      status = value;
-    };
-    
+    factory.canEdit = false;
+
     factory.login = function(data, callback) {
       var cb = callback || angular.noop;
       Session.save({
         feed: data.feed,
         password: data.password,
         rememberMe: data.rememberMe
-      }, function() {
-        return cb();
+      }, function(success) {
+        return cb(success);
       }, function(err) {
-        return cb(err.data);
+        return cb(err);
       });
     };
 

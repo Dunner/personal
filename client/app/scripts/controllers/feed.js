@@ -8,33 +8,24 @@
  * Controller of the lightApp
  */
 angular.module('lightApp')
-  .controller('feedCtrl', function ($rootScope, $scope, $stateParams, Auth, Posts, Feeds, Session) {
+  .controller('feedCtrl', function ($scope, $stateParams, Auth, Posts, Feeds, session) {
     
     $scope.writeNew = false;
     $scope.readingId = '';
-    
-    $scope.auth = Auth;
-    $scope.status = Auth.getStatus();
-    $scope.$watch('auth.getStatus()', function(newValue) {
-      $scope.status = newValue;
-    });
-    
+    Auth.canEdit = false;
+
     Feeds.get({'slug': $stateParams.slug}).$promise.then(function(response) {
       $scope.feed = response;
-      $rootScope.feedId = $scope.feed._id;
-
+      
       Posts.query({'feedId': $scope.feed._id}, function(response) {
         $scope.posts = response;
-
-        Session.get().$promise.then(function (data) {
-          Auth.setStatus(data.status);
-        });
-
       });
 
+      if (session.feedId == $scope.feed._id && typeof $scope.feed._id === 'string') {
+        Auth.canEdit = true;
+      }
+
     });
-
-
 
 
     $scope.expand = function(post) {
@@ -67,7 +58,7 @@ angular.module('lightApp')
       Posts.delete({'feedId': $scope.feed._id, postId: id}, function(post){
         for(var i = $scope.posts.length - 1; i >= 0; i--) {
           if($scope.posts[i]._id === post._id) {
-             $scope.posts.splice(i, 1);
+            $scope.posts.splice(i, 1);
           }
         }
       });

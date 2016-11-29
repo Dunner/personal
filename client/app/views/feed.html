@@ -1,5 +1,5 @@
 
-<div class="post-new" if-loggedin>
+<div class="post-new" ng-show="auth.canEdit">
   <hr/>
   <div class="post-toggle" ng-click="writeNew = !writeNew" ng-show="!writeNew">
     <img src="images/pfeed_plus.svg" height="40px"></img>
@@ -22,7 +22,7 @@
     <h1>{{item.title}}</h1> <!-- {{item.completed}} {{item.createdAt | date:"MM/dd/yyyy 'at' h:mma"}}-->
     <h3>{{item.excerpt}}</h3>
     <div ng-bind-html="item.content" ng-show="readingId === item._id"></div>
-    <button if-loggedin ng-click="removePost(item._id)" type="submit" class="delete button button-cancel"><h6>DELETE</h6></button>
+    <button ng-show="auth.canEdit" ng-click="removePost(item._id)" type="submit" class="delete button button-cancel"><h6>DELETE</h6></button>
   </div>
   <hr/>
 </div>

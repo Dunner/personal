@@ -17,14 +17,10 @@ angular
     'ngSanitize',
     'ngTouch',
     'textAngular',
-
-    'btford.socket-io'
   ])
   .run(   ['$rootScope', '$state', '$window',
   function ($rootScope,   $state,   $window) {
   
-    $rootScope.feedId = false;
-
     //Statechange
     $rootScope.$on('$stateChangeStart', function () {
       $window.scrollTo(0, 0);
@@ -54,7 +50,16 @@ angular
       .state('feed', {
         url: '/{slug}',
         templateUrl: 'views/feed.html',
-        controller: 'feedCtrl'
+        resolve: {
+          session: function(Session, $q) {
+            var deferred = $q.defer();
+            Session.get().$promise.then(function (data) {
+              deferred.resolve(data);
+            });
+            return deferred.promise;
+          }
+        },
+        controller: 'feedCtrl',
       });
       
     $urlRouterProvider.otherwise('/');

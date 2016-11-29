@@ -11,7 +11,6 @@
   var path           = require('path');
   var mongoose       = require('mongoose');
   var ejs            = require('ejs');
-  var io             = require('socket.io').listen(server);
 
   var bodyParser     = require('body-parser');
   var cookieParser   = require('cookie-parser');
@@ -82,8 +81,6 @@
   
   // routes ==================================================
   require('./lib/routes')(app); // configure API routes
-  // socket messages ===============================================
-  require('./lib/socket/messages')(app, io);
   // start app ===============================================
   server.listen(port, function () {
     console.log('Express server listening on %d, in %s mode', port, app.get('env'));

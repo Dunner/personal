@@ -8,9 +8,9 @@ var mongoose = require('mongoose'),
  */
 exports.start = function (req, res, next) {
   if(req.session.authenticatedFeed) {
-    return res.json(200, {'status': req.session.authenticatedFeed});
+    return res.json(200, {'feedId': req.session.authenticatedFeed});
   } else {
-    return res.json({'status': false});
+    return res.json({'feedId': false});
   }
 };
 
@@ -32,11 +32,11 @@ exports.login = function (req, res, next) {
     Feed.findOne({ 'slug': req.body.feed }).exec(function (err, feed) {
       if (!feed.validPassword(password)) {
         console.log('failed login with password: '+password);
-        return res.send(401, {'status':'Wrong Password'});
+        return res.send(401, {'message':'Wrong Password'});
       } else {
         // req.session.password = feed.generateHash(password);
         req.session.authenticatedFeed = feed._id;
-        return res.send(200);
+        return res.send(200, {'message':'You\'ve logged in!', feedId: feed._id});
       }
     });
   }
